@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Fare Prediction</title>
+    <style>
+        body {
+            background-image: url("static/aircraft.jpg");
+            background-size: cover;
+            background-position: center;
+            font-family: Arial, sans-serif;
+            color: white;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            margin-top: 50px;
+            font-size: 3em;
+        }
+        form {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            display: inline-block;
+            margin-top: 30px;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        input, select {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: none;
+        }
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        #prediction-result {
+            margin-top: 20px;
+            font-size: 1.5em;
+        }
+    </style>
+</head>
+<body>
+    <h1>Flight Fare Prediction</h1>
+    <form id="prediction-form">
+        <label for="Total_Stops">Total Stops:</label>
+        <input type="number" name="Total_Stops" id="Total_Stops" required><br>
+        
+        <label for="Airline">Airline:</label>
+        <select name="Airline" id="Airline">
+            <option value="IndiGo">IndiGo</option>
+            <option value="Air India">Air India</option>
+            <option value="Jet Airways">Jet Airways</option>
+            <option value="SpiceJet">SpiceJet</option>
+            <option value="Multiple carriers">Multiple carriers</option>
+            <option value="GoAir">GoAir</option>
+            <option value="Vistara">Vistara</option>
+            <option value="Air Asia">Air Asia</option>
+            <option value="Vistara Premium economy">Vistara Premium economy</option>
+            <option value="Jet Airways Business">Jet Airways Business</option>
+            <option value="Multiple carriers Premium economy">Multiple carriers Premium economy</option>
+            <option value="Trujet">Trujet</option>
+        </select><br>
+        
+        <label for="journey_Month">Journey Month:</label>
+        <input type="number" name="journey_Month" id="journey_Month" required><br>
+        
+        <label for="Dep_hour">Departure Hour:</label>
+        <input type="number" name="Dep_hour" id="Dep_hour" required><br>
+        
+        <label for="Arrival_hour">Arrival Hour:</label>
+        <input type="number" name="Arrival_hour" id="Arrival_hour" required><br>
+        
+        <label for="Duration_hours">Duration Hours:</label>
+        <input type="number" name="Duration_hours" id="Duration_hours" required><br>
+        
+        <input type="submit" value="Predict">
+    </form>
+    <div id="prediction-result"></div>
+
+    <script>
+        document.getElementById('prediction-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            fetch('/predict', {
+                method: 'POST',
+                body: new URLSearchParams(formData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('prediction-result').innerText = `Predicted Price: ${data.prediction}`;
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    </script>
+</body>
+</html>
