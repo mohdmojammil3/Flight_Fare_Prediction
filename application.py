@@ -3,7 +3,9 @@ import pandas as pd
 import joblib
 import os
 
-app = Flask(__name__)
+application = Flask(__name__)
+
+app = application
 
 # Load the preprocessor and model
 preprocessor_file_path = os.path.join("models", "preprocessor.pkl")
@@ -39,4 +41,4 @@ def predict():
     return jsonify({'prediction': predictions[0]})
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0")
