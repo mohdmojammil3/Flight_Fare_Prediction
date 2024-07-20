@@ -38,7 +38,7 @@ def predict():
     predictions = model.predict(preprocessed_data)
     
     # Return the result
-    return jsonify({'prediction': predictions[0]})
+    return jsonify({'prediction': round(predictions[0],)})
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0")
